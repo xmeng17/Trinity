@@ -61,10 +61,7 @@ void Correction(vec* x, mat* P, vec z, mat sigma_x_T, rect* mp, vec weights){
   mat S = WeighedCovVec(sigma_z_T, z_pred, weights);
   mat S_I = Inverse(S);
   mat T = WeighedCovMat(sigma_x_T, *x, sigma_z_T, z_pred, weights);
-  shapeMat(S_I);
-  shapeMat(T);
   mat K = MultiplyMat(T, S_I);
-
   vec y = SubVec(z, z_pred);
   *x = AddVec(*x, MultiplyVM(K, y));
   *P = SubMat(*P, MultiplyMat(K, MultiplyMat(S, Transpose(K))));
@@ -79,20 +76,6 @@ void UKF::Init(){
   is_initialized = true;
 }
 
-
-double UKF::Correction(){
-  MatrixXd sigma_z = CalculateSigmaZ(sigma_x_);
-  VectorXd z_pred = stats.WeighedMean(sigma_z,weights_);
-
-  MatrixXd S = stats.WeighedCovariance(sigma_z,z_pred,weights_) + sensor->GetCovarianceNoise();
-  MatrixXd S_inverse = S.inverse();
-  MatrixXd T = stats.WeighedCovariance(sigma_x_,x_,sigma_z,z_pred,weights_);
-  MatrixXd K = T * S_inverse;
-
-  VectorXd y = stats.GetDifference(meas_.z,z_pred);
-  x_ += K * y;
-  P_ -= K * S * K.transpose();
-  return (y.transpose() * S_inverse * y)(0);
 
 
 double UKF::Fuse(Measurement meas){

@@ -123,7 +123,7 @@ vec Ele(vec u, vec v){
 
 vec MultiplyVM(mat m, vec u){
   if (m.col == u.size){
-    vec ret = Vec(u.size);
+    vec ret = Vec(m.row);
     //ret[i] = m[i][].u[]
     for (int i = 0; i < m.row; i++){
       ret.value[i] = 0.0;

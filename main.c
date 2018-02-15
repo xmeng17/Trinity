@@ -14,7 +14,7 @@ int main(int argc, char **argv){
   vec z = Measure(89.1,13.9,30.1,214.5);
  
   rect* mp = getMap();
-  vec weights = Weights(15);
+  vec weights = Weights();
   mat sigma_x_T = Prediction(&x,&P,0.1, weights);
   Correction(&x,&P,z,sigma_x_T,mp,weights);
   
