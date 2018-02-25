@@ -36,26 +36,20 @@ bool small(float x){
 }
 
 void updateMeasure(vec m, int index, float value){
-  switch (index % 8){
-    case 0:
-      m.value[0] = value;
-      break;
-    case 2:
-      m.value[3] = value;
-      break;
-    case 4:
-      m.value[1] = value;
-      break;
-    case 6:
-      m.value[2] = value;
-      break;
-    default:
-      updateMeasure(m, index - 1, value);
-      updateMeasure(m, index + 1, value);
-  };
+  int ind = index % 8;
+  ind = ind < 0 ? ind + 8 : ind;
+  if (ind == 0) m.value[0] = value;
+  else if (ind == 2) m.value[3] = value;
+  else if (ind == 4) m.value[1] = value;
+  else if (ind == 6) m.value[2] = value;
+  else {
+    updateMeasure(m, index - 1, value);
+    updateMeasure(m, index + 1, value);
+  }
 }
 
 void isOn(vec x, rect r, vec m){
+
   float px = x.value[0];
   float py = x.value[1];
   float theta = x.value[3];
@@ -70,11 +64,10 @@ void isOn(vec x, rect r, vec m){
   float right = px - r.diag[1].x;
   float down = r.diag[0].y - py;
   float up = py - r.diag[1].y;
-  
-  if (small(left)) updateMeasure(m, index, 0);
-  if (small(right)) updateMeasure(m, index + 4, 0);
-  if (small(down)) updateMeasure(m, index + 6, 0);
-  if (small(up)) updateMeasure(m, index + 2, 0);
+  if (small(left)) {updateMeasure(m, index, 0);}
+  if (small(right)) {updateMeasure(m, index + 4, 0);}
+  if (small(down)) {updateMeasure(m, index + 6, 0);}
+  if (small(up)) {updateMeasure(m, index + 2, 0);}
 }
 
 rect* getMap(){

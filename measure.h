@@ -8,6 +8,8 @@
 #include "linear.h" 
 #include "stdlib.h"
 
+#define STD_MEAS 2
+
 typedef enum{false, true} bool;
 
 vec Measure(float front, float back, float left, float right);

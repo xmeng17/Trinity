@@ -67,6 +67,11 @@ void Correction(vec* x, mat* P, vec z, mat sigma_x_T, rect* mp, vec weights){
   *P = SubMat(*P, MultiplyMat(K, MultiplyMat(S, Transpose(K))));
 }
 
+void Update(vec* x, mat* P, vec z, float dt, rect* mp, vec weights){
+  mat sigma_x_T = Prediction(x,P,dt,weights);
+  Correction(x,P,z,sigma_x_T,mp,weights);
+}
+
 /*
 
 void UKF::Init(){
